@@ -781,6 +781,11 @@ void
 notmuch_message_set_flag (notmuch_message_t *message,
 			  notmuch_message_flag_t flag, notmuch_bool_t value);
 
+/* See if a given maildir flag is set, based on the message's filename. */
+notmuch_bool_t
+notmuch_message_md_flag (notmuch_message_t *message,
+			 const char flag);
+
 /* Get the date of 'message' as a time_t value.
  *
  * For the original textual representation of the Date header from the

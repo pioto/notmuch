@@ -96,6 +96,14 @@ _filename_list_add (_filename_list_t *list,
 }
 
 static void
+do_maildir_tags (notmuch_message_t *message)
+{
+    notmuch_message_add_tag (message, "inbox");
+    if (! notmuch_message_md_flag(message, 'S'))
+        notmuch_message_add_tag (message, "unread");
+}
+
+static void
 add_files_print_progress (add_files_state_t *state)
 {
     struct timeval tv_now;
@@ -408,6 +416,7 @@ add_files_recursive (notmuch_database_t *notmuch,
 	/* success */
 	case NOTMUCH_STATUS_SUCCESS:
 	    state->added_messages++;
+            do_maildir_tags(message);
 	    for (tag=state->new_tags; *tag != NULL; tag++)
 	        notmuch_message_add_tag (message, *tag);
 	    break;

@@ -538,6 +538,31 @@ notmuch_message_set_flag (notmuch_message_t *message,
 	message->flags &= ~(1 << flag);
 }
 
+notmuch_bool_t
+notmuch_message_md_flag (notmuch_message_t *message,
+			 const char flag)
+{
+    const char *filename;
+    const char *p;
+
+    filename = notmuch_message_get_filename (message);
+
+    p = strstr (filename, ":2,");
+    if (p == NULL) {
+        /* Not a valid maildir filename */
+        return FALSE;
+    }
+
+    for (p += 3; *p != '\0'; p++) {
+        if (*p == flag) {
+            return TRUE;
+        }
+    }
+
+    return FALSE;
+}
+
+
 time_t
 notmuch_message_get_date (notmuch_message_t *message)
 {
