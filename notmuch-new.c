@@ -101,6 +101,16 @@ do_maildir_tags (notmuch_message_t *message)
     notmuch_message_add_tag (message, "inbox");
     if (! notmuch_message_md_flag(message, 'S'))
         notmuch_message_add_tag (message, "unread");
+    if (notmuch_message_md_flag(message, 'T'))
+        notmuch_message_add_tag (message, "deleted");
+    if (notmuch_message_md_flag(message, 'D'))
+        notmuch_message_add_tag (message, "draft");
+    if (notmuch_message_md_flag(message, 'F'))
+        notmuch_message_add_tag (message, "flagged");
+    if (notmuch_message_md_flag(message, 'P'))
+        notmuch_message_add_tag (message, "passed");
+    if (notmuch_message_md_flag(message, 'R'))
+        notmuch_message_add_tag (message, "replied");
 }
 
 static void
