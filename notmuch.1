@@ -93,9 +93,11 @@ The
 .B new
 command scans all sub-directories of the database, performing
 full-text indexing on new messages that are found. Each new message
-will automatically be tagged with both the
-.BR inbox " and " unread
-tags.
+will automatically be tagged with the
+.BR inbox
+tag, and, unless it was already "seen" by another client, the
+.BR unread
+tag.
 
 You should run
 .B "notmuch new"

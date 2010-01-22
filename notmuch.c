@@ -128,9 +128,10 @@ command_t commands[] = {
     { "new", notmuch_new_command,
       "[--verbose]",
       "Find and import new messages to the notmuch database.",
-      "\tScans all sub-directories of the mail directory, performing\n"
-      "\tfull-text indexing on new messages that are found. Each new\n"
-      "\tmessage will be tagged as both \"inbox\" and \"unread\".\n"
+      "\t\tScans all sub-directories of the mail directory, performing\n"
+      "\t\tfull-text indexing on new messages that are found. Each new\n"
+      "\t\tmessage will be tagged as \"inbox\" and, unless it is\n"
+      "\t\tmarked as \"seen\", \"unread\".\n"
       "\n"
       "\tYou should run \"notmuch new\" once after first running\n"
       "\t\"notmuch setup\" to create the initial database. The first\n"
