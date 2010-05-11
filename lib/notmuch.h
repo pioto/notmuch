@@ -108,6 +108,19 @@ typedef enum _notmuch_status {
 const char *
 notmuch_status_to_string (notmuch_status_t status);
 
+/* Level of synchronization between notmuch tags and maildir flags. */
+enum notmuch_maildir_sync {
+    NOTMUCH_MAILDIR_SYNC_INVALID = 0,
+    /* No synchronization */
+    NOTMUCH_MAILDIR_SYNC_NONE,
+    /* Tag new messages accoring to maildir flags */
+    NOTMUCH_MAILDIR_SYNC_NEW,
+    /* The above + update tags for renamed messages */
+    NOTMUCH_MAILDIR_SYNC_NEW_RENAMED,
+    /* The above + update flags when tags are added/removed. */
+    NOTMUCH_MAILDIR_SYNC_NEW_RENAMED_TAGGED,
+};
+
 /* Various opaque data types. For each notmuch_<foo>_t see the various
  * notmuch_<foo> functions below. */
 typedef struct _notmuch_database notmuch_database_t;
@@ -175,6 +188,12 @@ notmuch_database_open (const char *path,
  * resources. See notmuch_database_open. */
 void
 notmuch_database_close (notmuch_database_t *database);
+
+/* Sets the level of synchronization between maildir flags and notmuch
+ * tags. */
+void
+notmuch_database_set_maildir_sync (notmuch_database_t *database,
+				   enum notmuch_maildir_sync maildir_sync);
 
 /* Return the database path of the given database.
  *

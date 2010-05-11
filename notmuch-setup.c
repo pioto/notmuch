@@ -195,6 +195,23 @@ notmuch_setup_command (unused (void *ctx),
 	g_ptr_array_free (tags, TRUE);
     }
 
+    printf ("\n"
+	    "Notmuch can synchronize certain tags with maildir flags. You can\n"
+	    "select between several levels of synchronization:\n"
+	    "1 - No synchronization at all.\n"
+	    "2 - 'notmuch new' tags the messages based on their maildir flags\n"
+	    "    only when it sees them for the first time.\n"
+	    "3 - Same as 2 plus 'notmuch new' updates tags when it detects the\n"
+	    "    message was renamed.\n"
+	    "4 - Same as 3 plus whenever message tags are changed, maildir\n"
+	    "    flags are updated accordingly.\n");
+
+    prompt ("Maildir synchronization level [%d]: ", notmuch_config_get_maildir_sync (config));
+    if (strlen (response) == 1 &&
+	response[0] >= '1' &&
+	response[0] <= '4')
+	notmuch_config_set_maildir_sync (config, atoi (response));
+
     if (! notmuch_config_save (config)) {
 	if (is_new)
 	  welcome_message_post_setup ();

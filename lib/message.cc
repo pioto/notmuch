@@ -626,7 +626,7 @@ _notmuch_message_sync (notmuch_message_t *message)
     if (message->notmuch->mode == NOTMUCH_DATABASE_MODE_READ_ONLY)
 	return;
 
-    if (// todo_sync_enabled &&
+    if (message->notmuch->maildir_sync == NOTMUCH_MAILDIR_SYNC_NEW_RENAMED_TAGGED &&
 	!notmuch_message_get_flag(message, NOTMUCH_MESSAGE_FLAG_TAGS_INVALID)) {
  	status = _notmuch_message_tags_to_maildir (message);
 	if (status != NOTMUCH_PRIVATE_STATUS_SUCCESS) {

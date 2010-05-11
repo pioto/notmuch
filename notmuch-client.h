@@ -191,6 +191,13 @@ notmuch_config_set_new_tags (notmuch_config_t *config,
 			     const char *new_tags[],
 			     size_t length);
 
+enum notmuch_maildir_sync
+notmuch_config_get_maildir_sync (notmuch_config_t *config);
+
+void
+notmuch_config_set_maildir_sync (notmuch_config_t *config,
+				 enum notmuch_maildir_sync maildir_sync);
+
 notmuch_bool_t
 debugger_is_active (void);
 
