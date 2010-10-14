@@ -689,6 +689,8 @@ notmuch_database_open (const char *path,
 	notmuch = NULL;
     }
 
+    notmuch_database_set_maildir_sync (notmuch, NOTMUCH_MAILDIR_SYNC_NONE);
+    
   DONE:
     if (notmuch_path)
 	free (notmuch_path);
@@ -716,6 +718,13 @@ notmuch_database_close (notmuch_database_t *notmuch)
     delete notmuch->xapian_db;
     delete notmuch->value_range_processor;
     talloc_free (notmuch);
+}
+
+void
+notmuch_database_set_maildir_sync (notmuch_database_t *database,
+				   enum notmuch_maildir_sync maildir_sync)
+{
+    database->maildir_sync = maildir_sync;
 }
 
 const char *
@@ -1643,6 +1652,13 @@ notmuch_database_add_message (notmuch_database_t *notmuch,
 
 	_notmuch_message_add_filename (message, filename);
 
+	/* This is a new message or it has a new filename and as such,
+	 * its tags in database either do not exists or might be out
+	 * of date. We assign the tags later in notmuch new, but until
+	 * then we should not synchronize the tags back to the maildir
+	 * flags (if notmuch is configured to do so). */
+	notmuch_message_set_flag(message, NOTMUCH_MESSAGE_FLAG_TAGS_INVALID, TRUE);
+
 	/* Is this a newly created message object? */
 	if (private_status == NOTMUCH_PRIVATE_STATUS_NO_DOCUMENT_FOUND) {
 	    _notmuch_message_add_term (message, "type", "mail");
@@ -1671,7 +1687,8 @@ notmuch_database_add_message (notmuch_database_t *notmuch,
 
   DONE:
     if (message) {
-	if (ret == NOTMUCH_STATUS_SUCCESS && message_ret)
+	if ((ret == NOTMUCH_STATUS_SUCCESS ||
+	     ret == NOTMUCH_STATUS_DUPLICATE_MESSAGE_ID) && message_ret)
 	    *message_ret = message;
 	else
 	    notmuch_message_destroy (message);
