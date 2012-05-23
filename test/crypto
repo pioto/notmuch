@@ -7,6 +7,8 @@
 test_description='PGP/MIME signature verification and decryption'
 . ./test-lib.sh
 
+test_require_external_prereq emacs
+
 add_gnupg_home ()
 {
     local output
