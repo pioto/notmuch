@@ -2,6 +2,8 @@
 test_description="Emacs with large search results buffer"
 . test-lib.sh
 
+test_require_external_prereq emacs
+
 x=xxxxxxxxxx # 10
 x=$x$x$x$x$x$x$x$x$x$x # 100
 x=$x$x$x$x$x$x$x$x$x # 900

@@ -3,6 +3,8 @@
 test_description="emacs test function sanity"
 . test-lib.sh
 
+test_require_external_prereq emacs
+
 test_begin_subtest "emacs test function sanity"
 test_emacs_expect_t 't'
 

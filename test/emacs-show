@@ -3,6 +3,8 @@
 test_description="Testing emacs notmuch-show view"
 . test-lib.sh
 
+test_require_external_prereq emacs
+
 test_begin_subtest "Hiding Original Message region at beginning of a message"
 message_id='OriginalMessageHiding.1@notmuchmail.org'
 add_message \

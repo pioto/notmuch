@@ -3,6 +3,8 @@
 test_description="emacs interface"
 . test-lib.sh
 
+test_require_external_prereq emacs
+
 EXPECTED=$TEST_DIRECTORY/emacs.expected-output
 
 add_email_corpus
