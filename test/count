@@ -7,22 +7,22 @@ add_email_corpus
 SEARCH="\"*\""
 
 test_begin_subtest "message count is the default for notmuch count"
-test_expect_equal \
+test_expect_equal_num \
     "`notmuch search --output=messages ${SEARCH} | wc -l`" \
     "`notmuch count ${SEARCH}`"
 
 test_begin_subtest "message count with --output=messages"
-test_expect_equal \
+test_expect_equal_num \
     "`notmuch search --output=messages ${SEARCH} | wc -l`" \
     "`notmuch count --output=messages ${SEARCH}`"
 
 test_begin_subtest "thread count with --output=threads"
-test_expect_equal \
+test_expect_equal_num \
     "`notmuch search --output=threads ${SEARCH} | wc -l`" \
     "`notmuch count --output=threads ${SEARCH}`"
 
 test_begin_subtest "thread count is the default for notmuch search"
-test_expect_equal \
+test_expect_equal_num \
     "`notmuch search ${SEARCH} | wc -l`" \
     "`notmuch count --output=threads ${SEARCH}`"
 

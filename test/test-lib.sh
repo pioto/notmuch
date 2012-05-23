@@ -512,6 +512,28 @@ test_expect_equal_file ()
     fi
 }
 
+# Like test_expect_equal, but does a numeric comparision instead of a
+# string comparision
+test_expect_equal_num () {
+	exec 1>&6 2>&7		# Restore stdout and stderr
+	inside_subtest=
+	test "$#" = 3 && { prereq=$1; shift; } || prereq=
+	test "$#" = 2 ||
+	error "bug in the test script: not 2 or 3 parameters to test_expect_equal"
+
+	output="$1"
+	expected="$2"
+	if ! test_skip "$test_subtest_name"
+	then
+		if test "$output" -eq "$expected"
+		then
+			test_ok_ "$test_subtest_name"
+		else
+			test_failure_ "$test_subtest_name" "$output != $expected"
+		fi
+	fi
+}
+
 test_emacs_expect_t () {
 	test "$#" = 2 && { prereq=$1; shift; } || prereq=
 	test "$#" = 1 ||
