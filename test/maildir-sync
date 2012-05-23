@@ -8,7 +8,7 @@ test_description="maildir synchronization"
 # --format=json" output includes some newlines. Also, need to avoid
 # including the local value of MAIL_DIR in the result.
 filter_show_json() {
-    sed -e 's/, /,\n/g'  | sed -e "s|${MAIL_DIR}/|MAIL_DIR/|"
+    perl -npe 's/, /,\n/g' | sed -e "s|${MAIL_DIR}/|MAIL_DIR/|"
     echo
 }
 

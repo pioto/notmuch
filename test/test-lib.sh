@@ -565,7 +565,7 @@ notmuch_show_sanitize_all ()
 
 notmuch_json_show_sanitize ()
 {
-    sed -e 's|, |,\n |g' | \
+    perl -npe 's|, |,\n |g' | \
 	sed \
 	-e 's|"id": "[^"]*",|"id": "XXXXX",|' \
 	-e 's|"filename": "[^"]*",|"filename": "YYYYY",|'
