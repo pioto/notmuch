@@ -1061,6 +1061,7 @@ find_notmuch_path ()
 # Test the binaries we have just built.  The tests are kept in
 # test/ subdirectory and are run in 'trash directory' subdirectory.
 TEST_DIRECTORY=$(pwd)
+notmuch_path=`find_notmuch_path "$TEST_DIRECTORY"`
 if test -n "$valgrind"
 then
 	make_symlink () {
@@ -1121,11 +1122,15 @@ then
 	PATH=$GIT_VALGRIND/bin:$PATH
 	GIT_EXEC_PATH=$GIT_VALGRIND/bin
 	export GIT_VALGRIND
+	test -n "$notmuch_path" && MANPATH="$notmuch_path/man:$MANPATH"
 else # normal case
-	notmuch_path=`find_notmuch_path "$TEST_DIRECTORY"`
-	test -n "$notmuch_path" && PATH="$notmuch_path:$PATH"
+	if test -n "$notmuch_path"
+		then
+			PATH="$notmuch_path:$PATH"
+			MANPATH="$notmuch_path/man:$MANPATH"
+		fi
 fi
-export PATH
+export PATH MANPATH
 
 # Test repository
 test="tmp.$(basename "$0" .sh)"
