@@ -21,9 +21,6 @@
 #ifndef NOTMUCH_CLIENT_H
 #define NOTMUCH_CLIENT_H
 
-#ifndef _GNU_SOURCE
-#define _GNU_SOURCE /* for getline */
-#endif
 #include <stdio.h>
 
 #include "compat.h"
